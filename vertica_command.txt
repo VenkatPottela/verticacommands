@@ -1,0 +1,27 @@
+#Commands to copy/export data from vertica
+#COPY FROM VERTICA 
+Step1:
+vsql -U<user-name> -h<host> -w<password>
+Step2:
+run below command in vsql prompt
+CONNECT TO VERTICA <database_you_want_copy_from> USER <user> PASSWORD <password> ON '<remote_vertica_host>',5433;
+Step3:
+#If the source table and destination table are same and the data doesn't need any WHERE clause
+COPY demo_table FROM VERTICA <database_you_want_copy_from>.demo_table DIRECT;
+Step4:
+#disconnect from source vertica cluster
+DISCONNECT <database_you_want_copy_from>;
+
+#EXPORT TO VERTICA
+Step1:
+vsql -U<user-name> -h<host> -w<password>
+Step2:
+#run below command in vsql prompt
+CONNECT TO VERTICA <database_you_want_copy_to> USER <user> PASSWORD <password> ON '<remote_vertica_host>',5433;
+Step3:
+#export data from this vertica to remote vertica
+EXPORT TO VERTICA <database_you_want_copy_to>.demo_table FROM demo_table;
+#or if you have a where clause
+EXPORT TO VERTICA <database_you_want_copy_to>.demo_table FROM demo_table WHERE <column_1>='xyz'; 
+
+
